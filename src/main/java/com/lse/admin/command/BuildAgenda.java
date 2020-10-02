@@ -16,9 +16,12 @@ import org.springframework.shell.table.TableBuilder;
 import org.springframework.shell.table.TableModel;
 
 import com.lse.admin.config.InputReader;
-import com.lse.admin.model.Agenda;
-import com.lse.admin.model.Agenda.AgendaBuilder;
-import com.lse.admin.model.Agenda.Outcome;
+import com.lse.admin.model.agenda.BusinessDevelopmentAssignment;
+import com.lse.admin.model.agenda.CertificationAssignment;
+import com.lse.admin.model.agenda.PeopleManagementAssignment;
+import com.lse.admin.model.agenda.SystemDesignAssignment;
+import com.lse.admin.model.agenda.composite.Agenda;
+import com.lse.admin.model.agenda.composite.Agenda.Outcome;
 import com.lse.admin.skin.ShellHelper;
 
 @ShellComponent
@@ -47,23 +50,26 @@ public class BuildAgenda {
     //
     // print(agenda.getOutcome());
 
-    Agenda.CertificationAssignment certificationAssignment = Agenda.CertificationAssignment
+    CertificationAssignment certificationAssignment = CertificationAssignment
         .builder(inputReader).withDescription().withDuration().build();
-    Agenda.PeopleManagementAssignment peopleManagementAssignment = Agenda.PeopleManagementAssignment
+    PeopleManagementAssignment peopleManagementAssignment = PeopleManagementAssignment
         .builder(inputReader).withDescription().withDuration()
         .withPeopleIWouldWantToTalk().build();
-    Agenda.SystemDesignAssignment systemDesignAssignment = Agenda.SystemDesignAssignment
+    SystemDesignAssignment systemDesignAssignment = SystemDesignAssignment
         .builder(inputReader).withSystem().withDescription().withDuration()
         .build();
-    
-    
+    BusinessDevelopmentAssignment businessDevelopmentAssignment = BusinessDevelopmentAssignment
+        .builder(inputReader).withDescription().withDuration().build();
+
     Agenda agenda = Agenda.builder()
         .certificationAssignment(certificationAssignment)
-        .peopleManagementAssignment(peopleManagementAssignment).systemDesignAssignment(systemDesignAssignment).build();
-    
+        .peopleManagementAssignment(peopleManagementAssignment)
+        .businessDevelopmentAssignment(businessDevelopmentAssignment)
+        .systemDesignAssignment(systemDesignAssignment).build();
+
     print(agenda.getOutcome());
 
-    return "processed";
+    return "request processed";
   }
 
   private void print(List<Outcome> result) {
