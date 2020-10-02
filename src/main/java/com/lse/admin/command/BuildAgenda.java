@@ -14,10 +14,10 @@ import org.springframework.shell.table.BeanListTableModel;
 import org.springframework.shell.table.BorderStyle;
 import org.springframework.shell.table.TableBuilder;
 import org.springframework.shell.table.TableModel;
-import org.springframework.util.StringUtils;
 
 import com.lse.admin.config.InputReader;
 import com.lse.admin.model.Agenda;
+import com.lse.admin.model.Agenda.AgendaBuilder;
 import com.lse.admin.model.Agenda.Outcome;
 import com.lse.admin.skin.ShellHelper;
 
@@ -39,36 +39,35 @@ public class BuildAgenda {
   @ShellMethod(value = "Build Agenda.", key = "build-agenda")
   public String buildAgenda() {
 
-    String description_ = "";
-    Long duration_ = 0l;
+    // // take input:
+    // Agenda.CertificationAssignment certificationAssignment = new Agenda.CertificationAssignment(
+    // description_, duration_);
+    // Agenda agenda = Agenda.builder()
+    // .withCertificationAssignment(certificationAssignment).build();
+    //
+    // print(agenda.getOutcome());
 
-    do {
-      String description = inputReader
-          .prompt("which topic you want to study for");
-      if (StringUtils.hasText(description)) {
-        description_ = description;
-      }
-    } while (description_ == null);
-
-    do {
-      String duration = inputReader.prompt("How long you want to study for");
-      if (StringUtils.hasText(duration)) {
-        duration_ = Long.parseLong(duration);
-      }
-    } while (duration_ == 0l);
-
-    // take input:
-    Agenda.CertificationAssignment certificationAssignment = new Agenda.CertificationAssignment(
-        description_, duration_);
+    Agenda.CertificationAssignment certificationAssignment = Agenda.CertificationAssignment
+        .builder(inputReader).withDescription().withDuration().build();
+    Agenda.PeopleManagementAssignment peopleManagementAssignment = Agenda.PeopleManagementAssignment
+        .builder(inputReader).withDescription().withDuration()
+        .withPeopleIWouldWantToTalk().build();
+    Agenda.SystemDesignAssignment systemDesignAssignment = Agenda.SystemDesignAssignment
+        .builder(inputReader).withSystem().withDescription().withDuration()
+        .build();
+    
+    
     Agenda agenda = Agenda.builder()
-        .withCertificationAssignment(certificationAssignment).build();
-
+        .certificationAssignment(certificationAssignment)
+        .peopleManagementAssignment(peopleManagementAssignment).systemDesignAssignment(systemDesignAssignment).build();
+    
     print(agenda.getOutcome());
 
     return "processed";
   }
 
   private void print(List<Outcome> result) {
+    System.out.println(result);
     LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
     headers.put("task", "Segment");
     headers.put("duration", "Duration");
