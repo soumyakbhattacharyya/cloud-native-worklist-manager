@@ -1,5 +1,10 @@
 package com.lse.admin.command;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,12 +21,7 @@ import org.springframework.shell.table.TableBuilder;
 import org.springframework.shell.table.TableModel;
 
 import com.lse.admin.config.InputReader;
-import com.lse.admin.model.agenda.BusinessDevelopmentAssignment;
-import com.lse.admin.model.agenda.CertificationAssignment;
-import com.lse.admin.model.agenda.FamilyOrientedAssignment;
-import com.lse.admin.model.agenda.PeopleManagementAssignment;
-import com.lse.admin.model.agenda.PersonalAssignment;
-import com.lse.admin.model.agenda.SystemDesignAssignment;
+import com.lse.admin.model.agenda.CompositeTask;
 import com.lse.admin.model.agenda.composite.Agenda;
 import com.lse.admin.model.agenda.composite.Agenda.Outcome;
 import com.lse.admin.skin.ShellHelper;
@@ -42,49 +42,17 @@ public class BuildAgenda {
   public static final Logger log = LoggerFactory.getLogger(BuildAgenda.class);
 
   @ShellMethod(value = "Build Agenda.", key = "build-agenda")
-  public String buildAgenda() {
+  public String buildAgenda() throws IOException {
 
-    // // take input:
-    // Agenda.CertificationAssignment certificationAssignment = new Agenda.CertificationAssignment(
-    // description_, duration_);
-    // Agenda agenda = Agenda.builder()
-    // .withCertificationAssignment(certificationAssignment).build();
-    //
-    // print(agenda.getOutcome());
-
-    CertificationAssignment certificationAssignment = CertificationAssignment
-        .builder(inputReader).withDescription().withDuration().withSeparator()
-        .build();
-    PeopleManagementAssignment peopleManagementAssignment = PeopleManagementAssignment
-        .builder(inputReader).withDescription().withDuration()
-        .withPeopleIWouldWantToTalk().withSeparator().build();
-    SystemDesignAssignment systemDesignAssignment = SystemDesignAssignment
-        .builder(inputReader).withSystem().withDescription().withDuration()
+    CompositeTask compositeTask = CompositeTask.builder(inputReader).withTasks()
         .withSeparator().build();
-    BusinessDevelopmentAssignment businessDevelopmentAssignment = BusinessDevelopmentAssignment
-        .builder(inputReader).withDescription().withTopic().withDuration()
-        .withSeparator().build();
-    FamilyOrientedAssignment familyOrientedAssignment = FamilyOrientedAssignment
-        .builder(inputReader).withDescription().withDuration().withSeparator()
-        .build();
-    PersonalAssignment personalAssignment = PersonalAssignment
-        .builder(inputReader).withDescription().withDuration()
-        .withPersonalStuff().withSeparator().build();
 
-    Agenda agenda = Agenda.builder()
-        .certificationAssignment(certificationAssignment)
-        .peopleManagementAssignment(peopleManagementAssignment)
-        .businessDevelopmentAssignment(businessDevelopmentAssignment)
-        .systemDesignAssignment(systemDesignAssignment)
-        .familyOrientedAssignment(familyOrientedAssignment)
-        .personalAssignment(personalAssignment).build();
-
-    print(agenda.getOutcome());
+    print(compositeTask.getOutcome());
 
     return "finished processing";
   }
 
-  private void print(List<Outcome> result) {
+  private void print(List<Outcome> result) throws IOException {
     LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
     headers.put("segment", "Segment");
     headers.put("task", "Task");
@@ -95,6 +63,16 @@ public class BuildAgenda {
     TableBuilder tableBuilder = new TableBuilder(model);
     tableBuilder.addInnerBorder(BorderStyle.oldschool);
     tableBuilder.addHeaderBorder(BorderStyle.oldschool);
-    System.out.println(tableBuilder.build().render(80));
+    String tableData = tableBuilder.build().render(80);
+    System.out.println(tableData);
+
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    LocalDateTime now = LocalDateTime.now();
+    String fileName = dtf.format(now) + "-daily-agenda.txt";
+    String directory = "C:/Soumyak/DAILY_AGENDA/";
+    BufferedWriter writer = new BufferedWriter(
+        new FileWriter(directory + fileName));
+    writer.write(tableData);
+    writer.close();
   }
 }
