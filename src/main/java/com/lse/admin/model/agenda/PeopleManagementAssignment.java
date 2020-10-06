@@ -8,6 +8,9 @@ import org.springframework.util.StringUtils;
 import com.lse.admin.config.InputReader;
 import com.lse.admin.model.agenda.composite.Agenda.Outcome;
 
+/*
+ * captures the tasks about people management activities
+ */
 public class PeopleManagementAssignment {
   private String description;
   private String peopleIWouldWantToTalk;
@@ -21,6 +24,7 @@ public class PeopleManagementAssignment {
 
   public List<Outcome> getOutcome() {
     Outcome outcome = new Outcome();
+    outcome.setSegment(this.getClass().getSimpleName());
     outcome.setTask(description);
     outcome.setDuration(duration);
     outcome.setAdditionalInfo(peopleIWouldWantToTalk);
@@ -65,9 +69,10 @@ public class PeopleManagementAssignment {
     }
 
     public PeopleManagementAssignment.Builder withDuration() {
+      if ("NA".equalsIgnoreCase(this.description)) return this;
       do {
         String userInput = this.inputReader
-            .prompt("low long would you want to spend ?");
+            .prompt("PeopleManagementAssignment :: low long would you want to spend ?");
         if (StringUtils.hasText(userInput)) {
           this.duration = Long.parseLong(userInput);
         }
@@ -75,8 +80,15 @@ public class PeopleManagementAssignment {
 
       return this;
     }
+    
+    public PeopleManagementAssignment.Builder withSeparator() {
+      String separator = new String(new char[100]).replace("\0", "*");
+      System.out.println(separator);
+      return this;
+    }
 
     public PeopleManagementAssignment.Builder withPeopleIWouldWantToTalk() {
+      if ("NA".equalsIgnoreCase(this.description)) return this;
       do {
         String userInput = this.inputReader.prompt(
             "PeopleManagementAssignment :: who are the people you would want to catch up with (comma separated) ?");

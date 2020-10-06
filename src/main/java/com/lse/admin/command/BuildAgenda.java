@@ -18,7 +18,9 @@ import org.springframework.shell.table.TableModel;
 import com.lse.admin.config.InputReader;
 import com.lse.admin.model.agenda.BusinessDevelopmentAssignment;
 import com.lse.admin.model.agenda.CertificationAssignment;
+import com.lse.admin.model.agenda.FamilyOrientedAssignment;
 import com.lse.admin.model.agenda.PeopleManagementAssignment;
+import com.lse.admin.model.agenda.PersonalAssignment;
 import com.lse.admin.model.agenda.SystemDesignAssignment;
 import com.lse.admin.model.agenda.composite.Agenda;
 import com.lse.admin.model.agenda.composite.Agenda.Outcome;
@@ -51,31 +53,41 @@ public class BuildAgenda {
     // print(agenda.getOutcome());
 
     CertificationAssignment certificationAssignment = CertificationAssignment
-        .builder(inputReader).withDescription().withDuration().build();
+        .builder(inputReader).withDescription().withDuration().withSeparator()
+        .build();
     PeopleManagementAssignment peopleManagementAssignment = PeopleManagementAssignment
         .builder(inputReader).withDescription().withDuration()
-        .withPeopleIWouldWantToTalk().build();
+        .withPeopleIWouldWantToTalk().withSeparator().build();
     SystemDesignAssignment systemDesignAssignment = SystemDesignAssignment
         .builder(inputReader).withSystem().withDescription().withDuration()
-        .build();
+        .withSeparator().build();
     BusinessDevelopmentAssignment businessDevelopmentAssignment = BusinessDevelopmentAssignment
-        .builder(inputReader).withDescription().withDuration().build();
+        .builder(inputReader).withDescription().withTopic().withDuration()
+        .withSeparator().build();
+    FamilyOrientedAssignment familyOrientedAssignment = FamilyOrientedAssignment
+        .builder(inputReader).withDescription().withDuration().withSeparator()
+        .build();
+    PersonalAssignment personalAssignment = PersonalAssignment
+        .builder(inputReader).withDescription().withDuration()
+        .withPersonalStuff().withSeparator().build();
 
     Agenda agenda = Agenda.builder()
         .certificationAssignment(certificationAssignment)
         .peopleManagementAssignment(peopleManagementAssignment)
         .businessDevelopmentAssignment(businessDevelopmentAssignment)
-        .systemDesignAssignment(systemDesignAssignment).build();
+        .systemDesignAssignment(systemDesignAssignment)
+        .familyOrientedAssignment(familyOrientedAssignment)
+        .personalAssignment(personalAssignment).build();
 
     print(agenda.getOutcome());
 
-    return "request processed";
+    return "finished processing";
   }
 
   private void print(List<Outcome> result) {
-    System.out.println(result);
     LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
-    headers.put("task", "Segment");
+    headers.put("segment", "Segment");
+    headers.put("task", "Task");
     headers.put("duration", "Duration");
     headers.put("additionalInfo", "Additional-Info");
     TableModel model = new BeanListTableModel<>(result, headers);

@@ -11,11 +11,11 @@ import com.lse.admin.model.agenda.composite.Agenda.Outcome;
 /*
  * captures the tasks about certification related studies
  */
-public class CertificationAssignment {
+public class FamilyOrientedAssignment {
   private String description;
   private long duration;
 
-  private CertificationAssignment(CertificationAssignment.Builder builder) {
+  private FamilyOrientedAssignment(FamilyOrientedAssignment.Builder builder) {
     this.description = builder.description;
     this.duration = builder.duration;
   }
@@ -32,16 +32,16 @@ public class CertificationAssignment {
   }
 
   /**
-   * Creates builder to build {@link CertificationAssignment}.
+   * Creates builder to build {@link FamilyOrientedAssignment}.
    * 
    * @return created builder
    */
-  public static CertificationAssignment.Builder builder(InputReader inputReader) {
+  public static FamilyOrientedAssignment.Builder builder(InputReader inputReader) {
     return new Builder(inputReader);
   }
 
   /**
-   * Builder to build {@link CertificationAssignment}.
+   * Builder to build {@link FamilyOrientedAssignment}.
    */
   public static final class Builder {
     private String description;
@@ -52,16 +52,16 @@ public class CertificationAssignment {
       this.inputReader = inputReader;
     }
     
-    public CertificationAssignment.Builder withSeparator() {
+    public FamilyOrientedAssignment.Builder withSeparator() {
       String separator = new String(new char[100]).replace("\0", "*");
       System.out.println(separator);
       return this;
     }
 
-    public CertificationAssignment.Builder withDescription() {
+    public FamilyOrientedAssignment.Builder withDescription() {
       do {
         String userInput = this.inputReader.prompt(
-            "CertificationAssignment :: which certification topic you would want to study for ?");
+            "FamilyOrientedAssignment :: which family oriented task you would want to complete today ?");
         if (StringUtils.hasText(userInput)) {
           this.description = userInput;
         }
@@ -70,11 +70,11 @@ public class CertificationAssignment {
       return this;
     }
 
-    public CertificationAssignment.Builder withDuration() {
+    public FamilyOrientedAssignment.Builder withDuration() {
       if ("NA".equalsIgnoreCase(this.description)) return this;
       do {
         String userInput = this.inputReader
-            .prompt("CertificationAssignment :: how long you would want to study ?");
+            .prompt("FamilyOrientedAssignment :: how long the specific task would take ?");
         if (StringUtils.hasText(userInput)) {
           this.duration = Long.parseLong(userInput);
         }
@@ -83,8 +83,8 @@ public class CertificationAssignment {
       return this;
     }
 
-    public CertificationAssignment build() {
-      return new CertificationAssignment(this);
+    public FamilyOrientedAssignment build() {
+      return new FamilyOrientedAssignment(this);
     }
   }
 }

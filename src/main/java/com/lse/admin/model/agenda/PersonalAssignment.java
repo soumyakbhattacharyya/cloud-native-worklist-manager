@@ -9,17 +9,18 @@ import org.springframework.util.StringUtils;
 
 import com.lse.admin.config.InputReader;
 import com.lse.admin.model.agenda.composite.Agenda.Outcome;
+import com.lse.admin.model.lov.Personal;
 import com.lse.admin.model.lov.Product;
 
-public class SystemDesignAssignment {
+public class PersonalAssignment {
   private String description;
-  private String system;
+  private String personalStuff;
   private long duration;
 
-  private SystemDesignAssignment(SystemDesignAssignment.Builder builder) {
+  private PersonalAssignment(PersonalAssignment.Builder builder) {
     this.description = builder.description;
     this.duration = builder.duration;
-    this.system = builder.system;
+    this.personalStuff = builder.personalStuff;
   }
 
   public List<Outcome> getOutcome() {
@@ -27,7 +28,7 @@ public class SystemDesignAssignment {
     outcome.setSegment(this.getClass().getSimpleName());
     outcome.setTask(description);
     outcome.setDuration(duration);
-    outcome.setAdditionalInfo(system);
+    outcome.setAdditionalInfo(personalStuff);
     List<Outcome> outcomes = new ArrayList<>();
     outcomes.add(outcome);
     return outcomes;
@@ -38,7 +39,7 @@ public class SystemDesignAssignment {
    * 
    * @return created builder
    */
-  public static SystemDesignAssignment.Builder builder(
+  public static PersonalAssignment.Builder builder(
       InputReader inputReader) {
     return new Builder(inputReader);
   }
@@ -49,17 +50,17 @@ public class SystemDesignAssignment {
   public static final class Builder {
     private String description;
     private long duration;
-    private String system;
+    private String personalStuff;
     private InputReader inputReader;
 
     private Builder(InputReader inputReader) {
       this.inputReader = inputReader;
     }
 
-    public SystemDesignAssignment.Builder withDescription() {
+    public PersonalAssignment.Builder withDescription() {
       do {
         String userInput = this.inputReader.prompt(
-            "SystemDesignAssignment :: which specific task you would want to accomplish ?");
+            "PersonalAssignment :: which specific task you would want to accomplish ?");
         if (StringUtils.hasText(userInput)) {
           this.description = userInput;
         }
@@ -68,12 +69,12 @@ public class SystemDesignAssignment {
       return this;
     }
 
-    public SystemDesignAssignment.Builder withDuration() {
+    public PersonalAssignment.Builder withDuration() {
       if ("NA".equalsIgnoreCase(this.description))
         return this;
       do {
         String userInput = this.inputReader.prompt(
-            "SystemDesignAssignment :: low long would you want to spend ?");
+            "PersonalAssignment :: low long would you want to spend ?");
         if (StringUtils.hasText(userInput)) {
           this.duration = Long.parseLong(userInput);
         }
@@ -82,36 +83,33 @@ public class SystemDesignAssignment {
       return this;
     }
 
-    public SystemDesignAssignment.Builder withSeparator() {
+    public PersonalAssignment.Builder withSeparator() {
       String separator = new String(new char[100]).replace("\0", "*");
       System.out.println(separator);
       return this;
     }
 
-    public SystemDesignAssignment.Builder withSystem() {
+    public PersonalAssignment.Builder withPersonalStuff() {
       if ("NA".equalsIgnoreCase(this.description))
         return this;
 
-      Map<String, String> products = new HashMap<>();
-      products.put("A", Product.RECRUITMENT_MANAGEMENT_SOLUTION.name());
-      products.put("B", Product.DEPLOYMENT_PATTERN_SET.name());
-      products.put("C", Product.ESTIMATOR_APPLICATION.name());
-      products.put("D", Product.FEATURE_FLAG_PATTERN_SET.name());
-      products.put("E", Product.PRACTICE_MANAGEMENT_SOLUTION.name());
-      products.put("F", Product.TESTING_PATTERN_SET.name());
-      products.put("G", Product.SECURITY_PATTERN_SET.name());
-      products.put("H", Product.DMS.name());
-
-      String service = inputReader.selectFromList("Products",
-          "SystemDesignAssignment :: which system you would like to work upon ?",
-          products, true, null);
-      Product product = Product.valueOf(products.get(service.toUpperCase()));
-      this.system = product.name();
+      Map<String, String> personalStuff = new HashMap<>();
+      personalStuff.put("A", Personal.DO_MEDITATE.name());
+      personalStuff.put("B", Personal.DO_READ.name());
+      personalStuff.put("C", Personal.DO_WATCH_MOVIE.name());
+      personalStuff.put("D", Personal.DO_WRITE.name());
+      personalStuff.put("E", Personal.DO_WALK.name());
+      
+      String service = inputReader.selectFromList("Personal Stuff",
+          "PersonalAssignment :: which topic you want to focus upon ?",
+          personalStuff, true, null);
+      Personal personal = Personal.valueOf(personalStuff.get(service.toUpperCase()));
+      this.personalStuff = personal.name();
       return this;
     }
 
-    public SystemDesignAssignment build() {
-      return new SystemDesignAssignment(this);
+    public PersonalAssignment build() {
+      return new PersonalAssignment(this);
     }
   }
 }
