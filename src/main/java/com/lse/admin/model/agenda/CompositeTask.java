@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.util.StringUtils;
 
 import com.lse.admin.config.InputReader;
-import com.lse.admin.model.agenda.composite.Agenda.Outcome;
+import com.lse.admin.model.agenda.composite.Outcome;
 
 /**
  * 
@@ -29,6 +29,12 @@ public class CompositeTask {
   private String operationalTask;
   private String switchTask;
   private String meetingTask;
+  private String financeTask;
+  private String socialTask;
+  private String avocationalTask;
+  private String kidTask;
+  private String wifeTask;
+  private String extendedFamilyTask;
 
   private CompositeTask(CompositeTask.Builder builder) {
     this.certificationTask = builder.certificationTask;
@@ -42,6 +48,13 @@ public class CompositeTask {
     this.operationalTask = builder.operationalTask;
     this.switchTask = builder.switchTask;
     this.meetingTask = builder.meetingTask;
+    this.financeTask = builder.financeTask;
+    this.socialTask = builder.socialTask;
+    this.avocationalTask = builder.avocationalTask;
+    this.kidTask = builder.kidTask;
+    this.wifeTask = builder.wifeTask;
+    this.extendedFamilyTask = builder.extendedFamilyTask;
+
   }
 
   public List<Outcome> getOutcome() {
@@ -58,6 +71,12 @@ public class CompositeTask {
     tasks.add(this.operationalTask);
     tasks.add(this.switchTask);
     tasks.add(this.meetingTask);
+    tasks.add(this.financeTask);
+    tasks.add(this.socialTask);
+    tasks.add(this.avocationalTask);
+    tasks.add(this.kidTask);
+    tasks.add(this.wifeTask);
+    tasks.add(this.extendedFamilyTask);
 
     List<Outcome> consolidatedListOfTasks = tasks.stream()
         .map(new Function<String, Outcome>() {
@@ -102,37 +121,55 @@ public class CompositeTask {
     public CompositeTask.Builder withTasks() {
 
       this.certificationTask = prompt(
-          "Question :: which task related to professional certification would you want to do today ?");
+          "Question :: which task related to professional certification would you want to do in next two days ?");
 
       this.deliveryExecutionTask = prompt(
-          "Question :: which task related to internal/external delivery would you want to perform today ?");
+          "Question :: which task related to internal/external delivery would you want to perform in next two days ?");
 
       this.artifactCreationTask = prompt(
-          "Question :: which task related to practice level artifact would you want to perform today ?");
+          "Question :: which task related to practice level artifact would you want to perform in next two days ?");
 
       this.busdevTask = prompt(
-          "Question :: which task related to business development would you want to perform today ?");
+          "Question :: which task related to business development would you want to perform in next two days ?");
 
       this.peopleUpskillingTask = prompt(
-          "Question :: which task related to people upskilling would you want to perform today ?");
+          "Question :: which task related to people upskilling would you want to perform in next two days ?");
 
       this.salesTask = prompt(
-          "Question :: which task related to upselling practice capability would you want to perform today ?");
+          "Question :: which task related to upselling practice capability would you want to perform in next two days ?");
 
       this.peopleMgmtTask = prompt(
-          "Question :: which task related to people management would you want to perform today ?");
+          "Question :: which task related to people management would you want to perform in next two days ?");
 
       this.personalProjectTask = prompt(
-          "Question :: which task related to personal project would you want to perform today ?");
+          "Question :: which task related to personal project would you want to perform in next two days ?");
 
       this.operationalTask = prompt(
-          "Question :: which task related to operations would you want to perform today ?");
+          "Question :: which task related to operations would you want to perform in next two days ?");
 
       this.switchTask = prompt(
-          "Question :: which task related to switching would you want to perform today ?");
+          "Question :: which task related to switching would you want to perform in next two days ?");
 
       this.meetingTask = prompt(
-          "Question :: which task related to meeting with others would you want to perform today ?");
+          "Question :: which task related to meeting with others would you want to perform in next two days ?");
+
+      this.financeTask = prompt(
+          "Question :: which task related to finance would you want to perform in next two days ?");
+      
+      this.socialTask = prompt(
+          "Question :: which social contribution would you want to perform in next two days ?");
+      
+      this.avocationalTask = prompt(
+          "Question :: which avocational pursuit you want to chase in next two days ?");
+      
+      this.kidTask = prompt(
+          "Question :: which parenting task would you want to perform in next two days ?");
+      
+      this.wifeTask = prompt(
+          "Question :: what about wife would you want to perform in next two days ?");
+      
+      this.extendedFamilyTask = prompt(
+          "Question :: what about the extended family you would want to perform in next two days ?");
 
       return this;
     }
@@ -159,6 +196,12 @@ public class CompositeTask {
     private String operationalTask;
     private String switchTask;
     private String meetingTask;
+    private String financeTask;
+    private String socialTask;
+    private String avocationalTask;
+    private String kidTask;
+    private String wifeTask;
+    private String extendedFamilyTask;
 
     public CompositeTask build() {
       return new CompositeTask(this);

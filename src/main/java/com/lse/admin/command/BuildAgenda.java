@@ -22,8 +22,7 @@ import org.springframework.shell.table.TableModel;
 
 import com.lse.admin.config.InputReader;
 import com.lse.admin.model.agenda.CompositeTask;
-import com.lse.admin.model.agenda.composite.Agenda;
-import com.lse.admin.model.agenda.composite.Agenda.Outcome;
+import com.lse.admin.model.agenda.composite.Outcome;
 import com.lse.admin.skin.ShellHelper;
 
 @ShellComponent
@@ -54,10 +53,7 @@ public class BuildAgenda {
 
   private void print(List<Outcome> result) throws IOException {
     LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
-    headers.put("segment", "Segment");
     headers.put("task", "Task");
-    headers.put("duration", "Duration");
-    headers.put("additionalInfo", "Additional-Info");
     TableModel model = new BeanListTableModel<>(result, headers);
 
     TableBuilder tableBuilder = new TableBuilder(model);
@@ -70,8 +66,7 @@ public class BuildAgenda {
     LocalDateTime now = LocalDateTime.now();
     String fileName = dtf.format(now) + "-daily-agenda.txt";
     String directory = "C:/Soumyak/DAILY_AGENDA/";
-    BufferedWriter writer = new BufferedWriter(
-        new FileWriter(directory + fileName));
+    BufferedWriter writer = new BufferedWriter(new FileWriter(directory + fileName));
     writer.write(tableData);
     writer.close();
   }
