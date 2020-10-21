@@ -53,13 +53,14 @@ public class BuildAgenda {
 
   private void print(List<Outcome> result) throws IOException {
     LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
+    headers.put("segment", "Segment");
     headers.put("task", "Task");
     TableModel model = new BeanListTableModel<>(result, headers);
 
     TableBuilder tableBuilder = new TableBuilder(model);
     tableBuilder.addInnerBorder(BorderStyle.oldschool);
     tableBuilder.addHeaderBorder(BorderStyle.oldschool);
-    String tableData = tableBuilder.build().render(80);
+    String tableData = tableBuilder.build().render(120);
     System.out.println(tableData);
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
