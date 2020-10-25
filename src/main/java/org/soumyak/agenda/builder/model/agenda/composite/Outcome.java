@@ -1,4 +1,4 @@
-package com.lse.admin.model.agenda.composite;
+package org.soumyak.agenda.builder.model.agenda.composite;
 
 import lombok.Data;
 

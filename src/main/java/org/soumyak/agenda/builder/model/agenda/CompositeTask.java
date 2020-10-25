@@ -1,4 +1,4 @@
-package com.lse.admin.model.agenda;
+package org.soumyak.agenda.builder.model.agenda;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,10 +8,9 @@ import java.util.Queue;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.soumyak.agenda.builder.config.InputReader;
+import org.soumyak.agenda.builder.model.agenda.composite.Outcome;
 import org.springframework.util.StringUtils;
-
-import com.lse.admin.config.InputReader;
-import com.lse.admin.model.agenda.composite.Outcome;
 
 /**
  * 

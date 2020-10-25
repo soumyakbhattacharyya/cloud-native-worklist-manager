@@ -1,4 +1,4 @@
-package com.lse.admin.command;
+package org.soumyak.agenda.builder.command;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -11,6 +11,10 @@ import java.util.List;
 import org.jline.reader.LineReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soumyak.agenda.builder.config.InputReader;
+import org.soumyak.agenda.builder.model.agenda.CompositeTask;
+import org.soumyak.agenda.builder.model.agenda.composite.Outcome;
+import org.soumyak.agenda.builder.skin.ShellHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.shell.standard.ShellComponent;
@@ -19,11 +23,6 @@ import org.springframework.shell.table.BeanListTableModel;
 import org.springframework.shell.table.BorderStyle;
 import org.springframework.shell.table.TableBuilder;
 import org.springframework.shell.table.TableModel;
-
-import com.lse.admin.config.InputReader;
-import com.lse.admin.model.agenda.CompositeTask;
-import com.lse.admin.model.agenda.composite.Outcome;
-import com.lse.admin.skin.ShellHelper;
 
 @ShellComponent
 public class BuildAgenda {
