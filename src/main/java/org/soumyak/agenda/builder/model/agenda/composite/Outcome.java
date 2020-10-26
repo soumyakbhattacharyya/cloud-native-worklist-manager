@@ -12,5 +12,7 @@ public class Outcome {
   String task;
   Long duration;
   String additionalInfo;
+  
+  public String getFormattedDescription() {return segment + " - " + task;}
 
 }

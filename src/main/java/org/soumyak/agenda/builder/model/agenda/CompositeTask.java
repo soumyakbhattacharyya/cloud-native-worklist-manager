@@ -90,7 +90,7 @@ public class CompositeTask {
     segments.add("Personal-Project");
     segments.add("Operational");
     segments.add("Switch");
-    segments.add("Health-Chek");
+    segments.add("Health-Check");
     segments.add("Finance");
     segments.add("Social");
     segments.add("Avocational");
@@ -110,7 +110,7 @@ public class CompositeTask {
               for (int i = 0; i < components.length; i++) {
                 String string = components[i];
                 if (!"na".equalsIgnoreCase(string.trim())) {
-                  components[i] = (i + 1) + ". " + string;
+                  components[i] = "("+(i + 1) + ") " + string.trim() + " ";
                 }
               }
               String joined = String.join(System.lineSeparator(),

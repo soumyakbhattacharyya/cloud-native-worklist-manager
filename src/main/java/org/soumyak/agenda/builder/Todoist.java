@@ -125,6 +125,10 @@ public class Todoist {
     public Task createNewTask(String content, Long projectId, Integer order, List<Long> labelIds, Integer priority, String dueString, String dueDate, String dueDateTime, String dueLang) throws TodoistException {
         return createNewTask(new TaskRequest(content, projectId, order, labelIds, priority, dueString, dueDate, dueDateTime, dueLang));
     }
+    
+    public Task createNewTask(String content, Long projectId, Integer sectionId, Integer order, List<Long> labelIds, Integer priority, String dueString, String dueDate, String dueDateTime, String dueLang) throws TodoistException {
+      return createNewTask(new TaskRequest(content, projectId, sectionId, order, labelIds, priority, dueString, dueDate, dueDateTime, dueLang));
+  }
 
     public Task getActiveTask(long id) throws TodoistException {
         HttpResponse<String> response = Unirest.get(URL_BASE + "/tasks/" + id)
@@ -321,16 +325,20 @@ public class Todoist {
     }
     
     public static void main(String[] args) throws TodoistException {
-      Todoist todoist = new Todoist("c30011955f1a4bbb494ea7e26d8618c0faf9bf73");
+      Todoist todoist = new Todoist("cef720df32b1e215815c4fdbb96e6f1784b24bdb");
       List<Project> myProjects = todoist.getAllProjects();
       for(Project p : myProjects) {
           System.out.println(p);
       }
-      // Project project = todoist.createNewProject("DailyAgenda");
-      // create project
-      // create task
-      Task createNewTask = todoist.createNewTask("dummy1 task");
+//       Project project = todoist.createNewProject("DailyAgenda");
+//       create project
+//       create task
+//      Task createNewTask = todoist.createNewTask("dummy1 task");
+      TaskRequest taskRequest = new TaskRequest("some task", 2248430537l, 0, null, 1, "\"tomorrow at 12:00\"", "", "", "");
+      todoist.createNewTask(taskRequest);
       
+//      LabelRequest labelRequest = new LabelRequest("finance", 1);
+//      todoist.createNewLabel("finance");
       
             
     }
